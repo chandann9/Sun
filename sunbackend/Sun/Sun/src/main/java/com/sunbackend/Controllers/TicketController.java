@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/ticket")
 @CrossOrigin("*")
+// for by pass
 public class TicketController {
 
     @Autowired
@@ -23,6 +24,7 @@ public class TicketController {
     public ResponseEntity<String> create(@RequestBody Ticket ticket) {
         try {
             if (ticketServices.create(ticket)) {
+                System.out.println("chandan");
                 return ResponseEntity.ok("Ticket Created");
             } else {
                 return ResponseEntity.ok("User Not Exists..");
@@ -70,7 +72,7 @@ public class TicketController {
         }
     }
 
-    @RateLimiter(name="TicketRateLimiter")
+    @RateLimiter(name = "TicketRateLimiter")
     @GetMapping("/getAll")
     public ResponseEntity<List<Ticket>> getAllTicket() {
         return ResponseEntity.ok(ticketServices.getAll());
@@ -95,15 +97,15 @@ public class TicketController {
     }
 
 
-        @PostMapping("update/{id}/{status}")
-        public ResponseEntity<Ticket> updateStatus(@PathVariable Long id,@PathVariable String status){
-            if (!ticketServices.isExists(id)) {
-                return ResponseEntity.status(500).body(null);
-            } else {
+    @PostMapping("update/{id}/{status}")
+    public ResponseEntity<Ticket> updateStatus(@PathVariable Long id, @PathVariable String status) {
+        if (!ticketServices.isExists(id)) {
+            return ResponseEntity.status(500).body(null);
+        } else {
 
-                return ResponseEntity.ok(ticketServices.updateTicket(id,TicketStatus.valueOf(status)));
-            }
+            return ResponseEntity.ok(ticketServices.updateTicket(id, TicketStatus.valueOf(status)));
         }
+    }
 
 
 }
